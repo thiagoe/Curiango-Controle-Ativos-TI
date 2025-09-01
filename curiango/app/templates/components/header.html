@@ -1,0 +1,20 @@
+<header class="bg-white border-b">
+  <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <img src="{{ url_for('static', filename='img/favicon.png') }}" alt="Curiango Logo" class="w-12 h-12">
+      <h1 class="text-xl font-semibold text-slate-800">Curiango - Controle de Ativos</h1>
+    </div>
+    <div class="flex items-center gap-3">
+      {% if is_authenticated %}
+        <div class="flex items-center gap-2">
+          <span class="text-sm text-slate-500">Usuário: {{ user_name }}</span>
+          <button onclick="logout()" class="text-sm text-red-600 hover:text-red-800 px-2 py-1 rounded hover:bg-red-50">
+            <i class="fa fa-sign-out-alt mr-1"></i> Sair
+          </button>
+        </div>
+      {% else %}
+        <span class="text-sm text-slate-500">Usuário: Não logado</span>
+      {% endif %}
+    </div>
+  </div>
+</header>

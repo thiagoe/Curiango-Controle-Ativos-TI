@@ -1,0 +1,51 @@
+# Arquivos de ambiente com credenciais
+.env
+curiango/.env
+
+# Logs
+logs/
+curiango/logs/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv
+
+# Virtual environment
+curiango/venv/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Arquivos temporários
+tmp/
+temp/
+*.tmp
+
+# Cookies e sessões
+cookies.txt
+
+# Backups
+*.backup
+backup.sql
+
+# Docker volumes
+db/base/

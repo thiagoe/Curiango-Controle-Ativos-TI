@@ -1,0 +1,140 @@
+# =============================================================================
+# DOCKER COMPOSE - CURIANGO CONTROLE DE ATIVOS
+# =============================================================================
+# Ambiente completo containerizado: Flask + MariaDB
+
+services:
+  # ---------------------------------------------------------------------------
+  # BANCO DE DADOS - MariaDB
+  # ---------------------------------------------------------------------------
+  db:
+    image: mariadb:11.4
+    container_name: curiango-db
+    restart: unless-stopped
+    
+    environment:
+      # Configurações do MariaDB
+      MARIADB_DATABASE: sistema_ativos_db
+      MARIADB_USER: usuario_app
+      MARIADB_PASSWORD: senha_exemplo
+      MARIADB_ROOT_PASSWORD: senha_root_exemplo
+      
+      # Configurações de timezone
+      TZ: America/Sao_Paulo
+      
+    volumes:
+      # Dados persistentes do banco (NOVO LOCAL)
+      - ./db/base:/var/lib/mysql
+      
+      # Script de inicialização do banco
+      - ./db/sql/db.sql:/docker-entrypoint-initdb.d/01-db.sql:ro
+      
+      # Configurações personalizadas do MariaDB
+      - ./docker/mariadb/my.cnf:/etc/mysql/conf.d/custom.cnf:ro
+      
+    ports:
+      - "3306:3306"
+      
+    networks:
+      - curiango-network
+      
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "root", "-psenha_root_exemplo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ---------------------------------------------------------------------------
+  # APLICAÇÃO FLASK
+  # ---------------------------------------------------------------------------
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: curiango-app
+    restart: unless-stopped
+    
+    environment:
+      # Configurações Flask
+      FLASK_ENV: production
+      FLASK_DEBUG: "false"
+      FLASK_APP: manage.py
+      
+      # Configurações do banco (usando hostname do container)
+      SQLALCHEMY_DATABASE_URI: mysql+pymysql://usuario_app:senha_exemplo@db:3306/sistema_ativos_db
+      SQLALCHEMY_ECHO: "false"
+      
+      # Chaves de segurança (ALTERAR EM PRODUÇÃO)
+      SECRET_KEY: "ALTERE-ESTA-CHAVE-EM-PRODUCAO"
+      JWT_SECRET_KEY: "ALTERE-ESTA-CHAVE-JWT-EM-PRODUCAO"
+      
+      # Configurações LDAP
+      LDAP_HOST: 192.168.1.100
+      LDAP_DOMAIN: empresa.local
+      LDAP_BASE_DN: "OU=Empresa,DC=empresa,DC=local"
+      LDAP_ALLOWED_GROUPS: "Grupo_TI,Grupo_Admin"
+      
+      # Configurações SMTP
+      MAIL_SERVER: smtp.gmail.com
+      MAIL_PORT: 587
+      MAIL_USE_TLS: "true"
+      MAIL_USERNAME: seu-email@gmail.com
+      MAIL_PASSWORD: "SUA-SENHA-DE-APP-AQUI"
+      MAIL_DEFAULT_SENDER: seu-email@gmail.com
+      
+      # Logs
+      LOG_LEVEL: INFO
+      LOG_FILE: /app/logs/app.log
+      
+      # Timezone
+      TZ: America/Sao_Paulo
+      
+    volumes:
+      # Código da aplicação (desenvolvimento - hot reload)
+      - ./curiango/app:/app/app:rw
+      
+      # Arquivos estáticos
+      - ./curiango/app/static:/app/app/static:rw
+      
+      # Templates
+      - ./curiango/app/templates:/app/app/templates:rw
+      
+      # Logs persistentes
+      - ./logs:/app/logs:rw
+      
+      # Configurações (apenas leitura)
+      - ./curiango/.env:/app/.env:ro
+      
+    ports:
+      - "5041:5000"
+      
+    networks:
+      - curiango-network
+      
+    depends_on:
+      db:
+        condition: service_healthy
+        
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+# =============================================================================
+# REDES
+# =============================================================================
+networks:
+  curiango-network:
+    driver: bridge
+    name: curiango-network
+
+# =============================================================================
+# VOLUMES NOMEADOS (se necessário)
+# =============================================================================
+volumes:
+  # Volume para logs se precisar de persistência adicional
+  curiango-logs:
+    name: curiango-logs

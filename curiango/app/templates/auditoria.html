@@ -1,0 +1,190 @@
+{% extends "layout.html" %}
+{% block content %}
+<div>
+  <h2 class="text-2xl font-bold mb-1">Auditoria do Sistema</h2>
+  <p class="text-slate-600 mb-6">Visualize todas as operações realizadas no sistema</p>
+
+  <!-- Filtros -->
+  <section class="bg-white border rounded-xl p-4 mb-4">
+    <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+      <i class="fa fa-filter text-slate-600"></i>
+      <span class="text-slate-800">Filtros</span>
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-6 gap-3 mb-3">
+      <div class="md:col-span-2">
+        <label class="sr-only" for="buscaGeral">Buscar</label>
+        <div class="relative">
+          <input id="buscaGeral" class="w-full border rounded-lg px-4 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" 
+                 placeholder="Buscar na descrição..." />
+        </div>
+      </div>
+      <div>
+        <label class="sr-only" for="filtroUsuario">Usuário</label>
+        <input id="filtroUsuario" class="mt-1 w-full border rounded-lg px-3 py-2" 
+               placeholder="Usuário..." />
+      </div>
+      <div>
+        <label class="sr-only" for="filtroAcao">Ação</label>
+        <select id="filtroAcao" class="mt-1 w-full border rounded-lg px-3 py-2">
+          <option value="">Todas as Ações</option>
+          <option value="CREATE">Criação</option>
+          <option value="UPDATE">Atualização</option>
+          <option value="DELETE">Exclusão</option>
+          <option value="TRANSFER">Transferência</option>
+          <option value="REMOVE_ALLOCATION">Remoção Alocação</option>
+          <option value="LOGIN">Login</option>
+          <option value="LOGOUT">Logout</option>
+          <option value="READ">Leitura</option>
+        </select>
+      </div>
+      <div>
+        <label class="sr-only" for="filtroTabela">Tabela</label>
+        <input id="filtroTabela" class="mt-1 w-full border rounded-lg px-3 py-2" 
+               placeholder="Tabela..." />
+      </div>
+      <div>
+        <button id="btnBuscar" class="w-full bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark">
+          <i class="fa fa-search mr-2"></i>Buscar
+        </button>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+      <div>
+        <label class="block text-sm font-medium mb-1" for="dataInicio">Data Início</label>
+        <input id="dataInicio" type="date" class="w-full border rounded-lg px-3 py-2" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium mb-1" for="dataFim">Data Fim</label>
+        <input id="dataFim" type="date" class="w-full border rounded-lg px-3 py-2" />
+      </div>
+      <div class="flex items-end">
+        <button id="btnLimparFiltros" class="w-full border border-slate-300 text-slate-700 px-4 py-2 rounded-lg hover:bg-slate-50">
+          <i class="fa fa-eraser mr-2"></i>Limpar
+        </button>
+      </div>
+      <div class="flex items-end">
+        <button id="btnExportar" class="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+          <i class="fa fa-download mr-2"></i>Exportar
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Estatísticas -->
+  <section class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+    <div class="bg-white border rounded-xl p-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-slate-600">Total de Logs</p>
+          <p id="statTotal" class="text-2xl font-bold text-slate-800">-</p>
+        </div>
+        <div class="bg-blue-100 p-3 rounded-lg">
+          <i class="fa fa-list text-blue-600"></i>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white border rounded-xl p-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-slate-600">Último Login</p>
+          <p id="statUltimoLogin" class="text-sm font-medium text-slate-800">-</p>
+        </div>
+        <div class="bg-green-100 p-3 rounded-lg">
+          <i class="fa fa-sign-in-alt text-green-600"></i>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white border rounded-xl p-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-slate-600">Operações Hoje</p>
+          <p id="statHoje" class="text-2xl font-bold text-slate-800">-</p>
+        </div>
+        <div class="bg-yellow-100 p-3 rounded-lg">
+          <i class="fa fa-calendar-day text-yellow-600"></i>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white border rounded-xl p-4">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm text-slate-600">Usuários Ativos</p>
+          <p id="statUsuarios" class="text-2xl font-bold text-slate-800">-</p>
+        </div>
+        <div class="bg-purple-100 p-3 rounded-lg">
+          <i class="fa fa-users text-purple-600"></i>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tabela de Logs -->
+  <section class="bg-white border rounded-xl p-0 overflow-hidden">
+    <div class="px-4 py-3 border-b bg-slate-50">
+      <h3 class="text-lg font-semibold text-slate-800">Logs de Auditoria</h3>
+    </div>
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-sm">
+        <thead class="bg-slate-50 border-b">
+          <tr>
+            <th class="text-left py-3 px-4 font-medium">Data/Hora</th>
+            <th class="text-left py-3 px-4 font-medium">Usuário</th>
+            <th class="text-left py-3 px-4 font-medium">Ação</th>
+            <th class="text-left py-3 px-4 font-medium">Tabela</th>
+            <th class="text-left py-3 px-4 font-medium">Descrição</th>
+            <th class="text-left py-3 px-4 font-medium">IP</th>
+            <th class="text-left py-3 px-4 font-medium">Ações</th>
+          </tr>
+        </thead>
+        <tbody id="tblAuditoria">
+          <tr>
+            <td colspan="7" class="text-center py-8 text-slate-500">
+              <i class="fa fa-spinner fa-spin text-2xl mb-2 block"></i>
+              Carregando logs de auditoria...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <!-- Paginação -->
+    <div class="px-4 py-3 border-t bg-slate-50 flex items-center justify-between">
+      <div class="text-sm text-slate-600">
+        Mostrando <span id="paginaInfo">-</span> registros
+      </div>
+      <div class="flex gap-2">
+        <button id="btnAnterior" class="px-3 py-1 border rounded hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed">
+          <i class="fa fa-chevron-left mr-1"></i>Anterior
+        </button>
+        <button id="btnProximo" class="px-3 py-1 border rounded hover:bg-slate-100 disabled:opacity-50 disabled:cursor-not-allowed">
+          Próximo<i class="fa fa-chevron-right ml-1"></i>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Modal de Detalhes -->
+  <div id="modalDetalhes" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg max-w-4xl w-full mx-4 max-h-[80vh] overflow-hidden">
+      <div class="flex items-center justify-between px-6 py-4 border-b">
+        <h3 class="text-xl font-semibold">Detalhes do Log</h3>
+        <button id="btnFecharModal" class="text-slate-400 hover:text-slate-600">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+      <div class="p-6 overflow-y-auto max-h-[60vh]">
+        <div id="conteudoDetalhes">
+          <!-- Conteúdo será preenchido via JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast simples -->
+  <div id="toast" class="hidden fixed bottom-6 right-6 bg-slate-900 text-white px-4 py-2 rounded shadow"></div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/auditoria.js') }}"></script>
+{% endblock %}

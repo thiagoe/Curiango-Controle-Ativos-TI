@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+{% block content %}
+<div>
+  <h2 class="text-2xl font-bold mb-1">Gestão de Ativos</h2>
+  <p class="text-slate-600 mb-6">Gerencie equipamentos, manutenções e alocações</p>
+
+  <div class="flex justify-between items-center mb-4">
+    <nav class="flex bg-slate-100 rounded-lg overflow-hidden" role="tablist" aria-label="Tipos de ativos">
+      <button class="tab-btn px-4 py-2 text-sm font-medium" data-tab="smartphone" aria-selected="true">Smartphones</button>
+      <button class="tab-btn px-4 py-2 text-sm font-medium" data-tab="chip_sim">Chips SIM</button>
+      <button class="tab-btn px-4 py-2 text-sm font-medium" data-tab="notebook">Notebooks/Desktops</button>
+    </nav>
+    <div class="flex gap-2">
+      <button id="btnNovoAtivo" class="bg-primary text-white px-4 py-2 rounded flex items-center gap-2">
+        <span class="text-lg leading-none">+</span> <span>Novo Ativo</span>
+      </button>
+    </div>
+  </div>
+
+  <section class="bg-white border rounded-xl p-4 mb-4">
+    <h3 class="text-lg font-semibold mb-3 flex items-center gap-2">
+      <span class="text-slate-800">Filtros</span>
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-6 gap-3">
+      <div class="md:col-span-4">
+        <label class="sr-only" for="busca">Buscar por nome ou modelo</label>
+        <div class="relative">
+          <input id="busca" class="w-full border rounded-lg px-4 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" placeholder="Buscar por nome ou modelo..." />
+        </div>
+      </div>
+      <div class="md:col-span-2">
+        <label class="sr-only" for="statusFiltro">Status</label>
+        <select id="statusFiltro" class="mt-1 w-full border rounded-lg px-3 py-2">
+          <option value="">Todos os Status</option>
+          <option value="novo">Novo</option>
+          <option value="usado">Usado</option>
+          <option value="em_manutencao">Em manutenção</option>
+          <option value="danificado">Danificado</option>
+          <option value="inativo">Inativo</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white border rounded-xl p-0 overflow-hidden">
+    <div class="overflow-x-auto">
+      <table class="min-w-full text-sm">
+        <!-- Cabeçalho será gerado dinamicamente pelo JavaScript -->
+        <tbody id="tblAtivos"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Modal Novo Ativo -->
+  <div id="modalBackdrop" class="hidden fixed inset-0 bg-black/40 z-20"></div>
+  <div id="modalNovoAtivo" class="hidden fixed inset-0 z-30 flex items-center justify-center px-4">
+    <div class="bg-white rounded-xl shadow w-full max-w-2xl">
+      <div class="flex items-center justify-between px-4 py-3 border-b">
+        <h4 class="text-lg font-semibold">Novo Ativo</h4>
+        <button class="btn-close-novo text-slate-500 hover:text-slate-700">✕</button>
+      </div>
+      <form id="formNovoAtivo" class="p-4 space-y-4">
+        <div class="text-sm text-slate-600">Categoria selecionada: <span id="categoriaAtual" class="font-medium"></span></div>
+        <div id="dynamicFields" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
+        <div class="pt-2 flex items-center justify-end gap-2">
+          <button type="button" class="btn-close-novo px-3 py-2 border rounded-lg">Cancelar</button>
+          <button class="bg-primary text-white px-4 py-2 rounded-lg">Salvar</button>
+        </div>
+        <div id="msgNovoAtivo" class="text-sm"></div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast simples -->
+  <div id="toast" class="hidden fixed bottom-6 right-6 bg-slate-900 text-white px-4 py-2 rounded shadow"></div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/estoque.js') }}"></script>
+<script src="{{ url_for('static', filename='js/dropdown-acoes.js') }}"></script>
+<script src="{{ url_for('static', filename='js/acoes_ativos.js') }}"></script>
+<script src="{{ url_for('static', filename='js/editar_ativo.js') }}"></script>
+<script src="{{ url_for('static', filename='js/manutencao-v2.js') }}"></script>
+<script src="{{ url_for('static', filename='js/notas-ativo.js') }}"></script>
+{% endblock %}

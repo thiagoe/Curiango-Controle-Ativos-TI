@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Termo de Responsabilidade</title>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .content { line-height: 1.6; }
+        .signature { margin-top: 50px; text-align: center; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h2>TERMO DE RESPONSABILIDADE DE EQUIPAMENTO</h2>
+    </div>
+    
+    <div class="content">
+        <p>Eu, <strong>{{ NOME_USUARIO }}</strong>, portador(a) do CPF <strong>{{ CPF_USUARIO }}</strong>, matrícula <strong>{{ MATRICULA_USUARIO }}</strong>, declaro ter recebido o seguinte equipamento:</p>
+        
+        <p><strong>Equipamento:</strong> {{ DETALHES_EQUIPAMENTO }}</p>
+        <p><strong>Valor:</strong> {{ VALOR_EQUIPAMENTO }}</p>
+        
+        <p>Comprometo-me a:</p>
+        <ul>
+            <li>Utilizar o equipamento apenas para fins profissionais</li>
+            <li>Zelar pela integridade física do equipamento</li>
+            <li>Comunicar imediatamente qualquer dano ou problema</li>
+            <li>Devolver o equipamento quando solicitado</li>
+        </ul>
+        
+        <p>Declaro estar ciente de que sou responsável pelo equipamento recebido e aceito as seguintes condições:</p>
+        
+        <p><strong>A –</strong> Em caso de ser o equipamento extraviado, danificado ou inutilizado por emprego inadequado, mau uso ou negligência, deverei ressarcir à WGO, o valor de {{ VALOR_RESSARCIMENTO }};</p>
+        
+        <p><strong>B –</strong> Em caso de dano, inutilização ou extravio do equipamento, deverei comunicar à Empresa imediata e expressamente a ocorrência;</p>
+        
+        <p><strong>C –</strong> Todos os equipamentos poderão ser objeto de inspeções a qualquer momento, por parte da Empresa;</p>
+        
+        <p><strong>D –</strong> O conteúdo dos equipamentos (notebooks, HDs, etc...) não devem ser divulgados ou compartilhados sem autorização expressa da Empresa;</p>
+        
+        <p><strong>E –</strong> Em caso de rescisão contratual por qualquer motivo, devolverei os equipamentos em perfeitas condições, até a data do acerto rescisório, sob pena de arcar com pagamento do valor acima;</p>
+    </div>
+    
+    <div class="signature">
+        <p>Data: ___/___/______</p>
+        <br><br>
+        <p>_________________________________</p>
+        <p>{{ NOME_USUARIO }}</p>
+        <p>CPF: {{ CPF_USUARIO }}</p>
+    </div>
+</body>
+</html>

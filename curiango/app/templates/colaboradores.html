@@ -1,0 +1,107 @@
+{% extends "layout.html" %}
+{% block content %}
+<div>
+  <div class="flex items-center justify-between mb-6">
+    <div class="flex items-center gap-2">
+      <h2 class="text-2xl font-bold">Colaboradores</h2>
+      <button id="btnFiltrosToggle" class="text-gray-500 hover:text-gray-700">
+        <i class="fa fa-filter"></i> Filtros
+      </button>
+    </div>
+    <button id="btnNovoColab" class="bg-primary text-white px-4 py-2 rounded hover:bg-primary-dark">
+      <i class="fa fa-plus mr-2"></i>Novo Colaborador
+    </button>
+  </div>
+
+  <section id="filtros" class="bg-white border rounded-lg p-4 mb-6">
+    <div class="flex gap-4 items-end">
+      <div class="flex-1">
+        <label class="block text-sm font-medium mb-1">Buscar colaborador</label>
+        <div class="relative">
+          <input id="fBusca" class="w-full border rounded-lg px-4 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent" 
+            placeholder="Digite nome, CPF ou matrícula..." />
+        </div>
+        <p class="text-xs text-gray-500 mt-1">
+          Busca por nome, CPF ou matrícula do colaborador
+        </p>
+      </div>
+      <div class="w-48">
+        <label class="block text-sm font-medium mb-1">Status</label>
+        <select id="fStatus" class="w-full border rounded-lg px-3 py-2">
+          <option value="">Todos os Status</option>
+          <option value="ativo">Ativo</option>
+          <option value="desligado">Desligado</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white border rounded-lg">
+    <div id="tblColab" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4"></div>
+  </section>
+
+  <!-- Modal Novo/Editar -->
+  <div id="modalColab" class="fixed inset-0 bg-black bg-opacity-50 hidden" style="z-index: 50;">
+    <div class="bg-white rounded-lg max-w-2xl mx-auto mt-20 p-6">
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-xl font-semibold">Cadastrar Colaborador</h3>
+        <button class="btn-close-modal text-gray-500 hover:text-gray-700">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+      <form id="formColab" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <input type="hidden" name="id" />
+        <div>
+          <label class="block text-sm font-medium mb-1">Nome <span class="text-red-500">*</span></label>
+          <input name="nome" required class="w-full border rounded-lg px-3 py-2" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Matrícula <span class="text-red-500">*</span></label>
+          <input name="matricula" required class="w-full border rounded-lg px-3 py-2" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">CPF <span class="text-red-500">*</span></label>
+          <input name="cpf" required pattern="\d{3}\.\d{3}\.\d{3}-\d{2}" 
+            placeholder="000.000.000-00" class="w-full border rounded-lg px-3 py-2" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">E-mail</label>
+          <input name="email" type="email" class="w-full border rounded-lg px-3 py-2" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Cargo <span class="text-red-500">*</span></label>
+          <input name="cargo" required class="w-full border rounded-lg px-3 py-2" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Setor</label>
+          <select name="setor_id" class="w-full border rounded-lg px-3 py-2">
+            <option value="">Selecione um setor...</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-1">Status</label>
+          <select name="status" class="w-full border rounded-lg px-3 py-2">
+            <option value="ativo">Ativo</option>
+            <option value="desligado">Desligado</option>
+          </select>
+        </div>
+        <div class="md:col-span-2">
+          <label class="block text-sm font-medium mb-1">Ativos Alocados</label>
+          <div id="ativosAlocados" class="text-sm text-gray-600">
+            Nenhum ativo alocado
+          </div>
+        </div>
+        <div class="md:col-span-2 flex justify-end gap-3 pt-4 border-t">
+          <button type="button" class="btn-close-modal px-4 py-2 text-gray-600 hover:text-gray-800">Cancelar</button>
+          <button type="submit" class="bg-primary text-white px-4 py-2 rounded-lg hover:bg-primary-dark">
+            Salvar
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/colaboradores.js') }}"></script>
+{% endblock %}

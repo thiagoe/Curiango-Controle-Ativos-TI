@@ -1,0 +1,15 @@
+<!-- Toast Container -->
+<div id="toastContainer" class="fixed bottom-4 right-4 z-50"></div>
+
+<!-- Template para Toast -->
+<template id="toastTemplate">
+  <div class="mb-3 p-4 rounded-lg shadow-lg min-w-[300px] max-w-md transform transition-all duration-300 ease-out translate-y-2 opacity-0">
+    <div class="flex items-center gap-3">
+      <i class="fas text-xl"></i>
+      <p class="flex-1 text-sm"></p>
+      <button class="text-current opacity-70 hover:opacity-100" onclick="this.closest('.toast').remove()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </div>
+</template>

@@ -1,0 +1,231 @@
+{% extends "layout.html" %}
+{% set title = "Dashboard - Curiango - Controle de Ativos" %}
+
+{% block content %}
+<div class="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-6">
+  <!-- Header -->
+  <div class="mb-8">
+    <h1 class="text-4xl font-bold text-slate-800 mb-2">Dashboard</h1>
+    <p class="text-slate-600">Visão geral dos ativos e estatísticas do sistema</p>
+  </div>
+  
+  <!-- Cards de Resumo Principal -->
+  <div class="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Total de Ativos -->
+    <div class="bg-white rounded-xl shadow-lg border-l-4 border-blue-500 p-6 hover:shadow-xl transition-shadow">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-slate-500 text-sm uppercase tracking-wide font-medium">Total de Ativos</p>
+          <div id="cardTotal" class="text-3xl font-bold text-slate-800 mt-1">0</div>
+        </div>
+        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+          <i class="fas fa-laptop text-blue-600 text-xl"></i>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Em Uso -->
+    <div class="bg-white rounded-xl shadow-lg border-l-4 border-green-500 p-6 hover:shadow-xl transition-shadow">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-slate-500 text-sm uppercase tracking-wide font-medium">Em Uso</p>
+          <div id="cardEmUso" class="text-3xl font-bold text-green-600 mt-1">0</div>
+        </div>
+        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+          <i class="fas fa-user-check text-green-600 text-xl"></i>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Em Estoque -->
+    <div class="bg-white rounded-xl shadow-lg border-l-4 border-orange-500 p-6 hover:shadow-xl transition-shadow">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-slate-500 text-sm uppercase tracking-wide font-medium">Disponíveis</p>
+          <div id="cardEstoque" class="text-3xl font-bold text-orange-600 mt-1">0</div>
+        </div>
+        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+          <i class="fas fa-warehouse text-orange-600 text-xl"></i>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Inativos -->
+    <div class="bg-white rounded-xl shadow-lg border-l-4 border-slate-500 p-6 hover:shadow-xl transition-shadow">
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-slate-500 text-sm uppercase tracking-wide font-medium">Inativos</p>
+          <div id="cardInativos" class="text-3xl font-bold text-slate-600 mt-1">0</div>
+        </div>
+        <div class="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
+          <i class="fas fa-power-off text-slate-600 text-xl"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Cards por Categoria -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <!-- Smartphones -->
+    <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+      <div class="flex items-center justify-between mb-4">
+        <h4 class="text-lg font-semibold text-slate-800">Smartphones</h4>
+        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+          <i class="fas fa-mobile-alt text-blue-600"></i>
+        </div>
+      </div>
+      <div class="space-y-2">
+        <div class="flex justify-between">
+          <span class="text-sm text-slate-600">Total:</span>
+          <span id="smartphonesTotal" class="font-semibold">0</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-slate-600">Em Uso:</span>
+          <span id="smartphonesEmUso" class="font-semibold text-green-600">0</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-slate-600">Disponíveis:</span>
+          <span id="smartphonesDisponiveis" class="font-semibold text-orange-600">0</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Notebooks/Desktops -->
+    <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+      <div class="flex items-center justify-between mb-4">
+        <h4 class="text-lg font-semibold text-slate-800">Computadores</h4>
+        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+          <i class="fas fa-laptop text-green-600"></i>
+        </div>
+      </div>
+      <div class="space-y-2">
+        <div class="flex justify-between">
+          <span class="text-sm text-slate-600">Total:</span>
+          <span id="computadoresTotal" class="font-semibold">0</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-slate-600">Em Uso:</span>
+          <span id="computadoresEmUso" class="font-semibold text-green-600">0</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-slate-600">Disponíveis:</span>
+          <span id="computadoresDisponiveis" class="font-semibold text-orange-600">0</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Chips SIM -->
+    <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+      <div class="flex items-center justify-between mb-4">
+        <h4 class="text-lg font-semibold text-slate-800">Chips SIM</h4>
+        <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
+          <i class="fas fa-sim-card text-amber-600"></i>
+        </div>
+      </div>
+      <div class="space-y-2">
+        <div class="flex justify-between">
+          <span class="text-sm text-slate-600">Total:</span>
+          <span id="chipsTotal" class="font-semibold">0</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-slate-600">Em Uso:</span>
+          <span id="chipsEmUso" class="font-semibold text-green-600">0</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-sm text-slate-600">Disponíveis:</span>
+          <span id="chipsDisponiveis" class="font-semibold text-orange-600">0</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Detalhes por Categoria -->
+  <div class="bg-white rounded-xl shadow-lg p-6 mb-8 hover:shadow-xl transition-shadow">
+    <h3 class="text-lg font-semibold text-slate-800 mb-4">
+      <i class="fas fa-table text-blue-600 mr-2"></i>
+      Ativos por Categoria
+    </h3>
+    <div id="tabelaCategorias">
+      <div class="flex items-center justify-center py-8 text-slate-400">
+        <i class="fas fa-spinner fa-spin mr-2"></i>
+        Carregando dados...
+      </div>
+    </div>
+  </div>
+
+  <!-- Resumo de Usuários -->
+  <div class="bg-white rounded-xl shadow-lg p-6 mb-8 hover:shadow-xl transition-shadow">
+    <h3 class="text-lg font-semibold text-slate-800 mb-4">
+      <i class="fas fa-users text-blue-600 mr-2"></i>
+      Resumo de Usuários
+    </h3>
+    <div id="resumoUsuarios">
+      <div class="flex items-center justify-center py-8 text-slate-400">
+        <i class="fas fa-spinner fa-spin mr-2"></i>
+        Carregando dados...
+      </div>
+    </div>
+  </div>
+  
+  <!-- Gráficos por Tipo de Ativo -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <!-- Smartphones -->
+    <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+      <h3 class="text-lg font-semibold text-slate-800 mb-4">
+        <i class="fas fa-mobile-alt text-blue-600 mr-2"></i>
+        Status dos Smartphones
+      </h3>
+      <div class="h-64 flex items-center justify-center">
+        <canvas id="graficoSmartphones" width="300" height="200"></canvas>
+      </div>
+    </div>
+    
+    <!-- Notebooks -->
+    <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+      <h3 class="text-lg font-semibold text-slate-800 mb-4">
+        <i class="fas fa-laptop text-green-600 mr-2"></i>
+        Status dos Notebooks
+      </h3>
+      <div class="h-64 flex items-center justify-center">
+        <canvas id="graficoNotebooks" width="300" height="200"></canvas>
+      </div>
+    </div>
+    
+    <!-- Desktops -->
+    <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+      <h3 class="text-lg font-semibold text-slate-800 mb-4">
+        <i class="fas fa-desktop text-purple-600 mr-2"></i>
+        Status dos Desktops
+      </h3>
+      <div class="h-64 flex items-center justify-center">
+        <canvas id="graficoDesktops" width="300" height="200"></canvas>
+      </div>
+    </div>
+    
+    <!-- Chips SIM -->
+    <div class="bg-white rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow">
+      <h3 class="text-lg font-semibold text-slate-800 mb-4">
+        <i class="fas fa-sim-card text-amber-600 mr-2"></i>
+        Status dos Chips SIM
+      </h3>
+      <div class="h-64 flex items-center justify-center">
+        <canvas id="graficoChips" width="300" height="200"></canvas>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<!-- Loading Overlay -->
+<div id="loadingOverlay" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white p-8 rounded-xl shadow-2xl text-center">
+    <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+    <p class="text-slate-700 font-medium">Carregando dashboard...</p>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="{{ url_for('static', filename='js/dashboard-moderno.js') }}"></script>
+{% endblock %}

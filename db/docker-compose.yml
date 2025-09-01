@@ -1,0 +1,17 @@
+services:
+  db:
+    image: mariadb:11.4
+    restart: always
+    environment:
+      MARIADB_DATABASE: sistema_ativos_db
+      MARIADB_USER: usuario_app
+      MARIADB_PASSWORD: senha_exemplo
+      MARIADB_ROOT_PASSWORD: senha_root_exemplo
+    volumes:
+      - ./sql/db.sql:/docker-entrypoint-initdb.d/db.sql
+      - mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+
+volumes:
+  mysql-data:

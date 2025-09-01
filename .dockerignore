@@ -1,0 +1,89 @@
+# =============================================================================
+# DOCKER IGNORE - CURIANGO CONTROLE DE ATIVOS
+# =============================================================================
+# Arquivos e diretórios a serem ignorados durante o build
+
+# Ambiente virtual Python
+curiango/venv/
+curiango/__pycache__/
+curiango/**/__pycache__/
+curiango/**/**/__pycache__/
+
+# Arquivos de ambiente (contêm senhas)
+curiango/.env
+curiango/.env.local
+curiango/.env.production
+
+# Logs locais
+logs/
+curiango/logs/
+*.log
+
+# Arquivos temporários Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Arquivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+.gitignore
+
+# Docker
+Dockerfile*
+docker-compose*
+.dockerignore
+
+# Documentação e planos
+README*
+*.md
+plan.md
+CLAUDE.md
+
+# Banco de dados (será mapeado via volume)
+db/
+*.sql
+*.db
+
+# Cache e temporários
+.cache/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Uploads e arquivos gerados
+uploads/
+temp/
+tmp/
+
+# Arquivos de backup
+*.backup
+*.bak
+*.tmp

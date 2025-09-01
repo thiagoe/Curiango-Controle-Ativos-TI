@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curiango - Controle de Ativos</title>
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='img/favicon.png') }}">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Animações personalizadas */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        @keyframes slideInUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        @keyframes fadeInScale {
+            from { transform: scale(0.9); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        .animate-slide-up {
+            animation: slideInUp 0.8s ease-out forwards;
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(50px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes fadeInLeft {
+            from { transform: translateX(-30px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .animate-slide-right {
+            animation: slideInRight 1.2s ease-out forwards;
+        }
+        
+        .animate-fade-left {
+            animation: fadeInLeft 1s ease-out forwards;
+        }
+        
+        .animate-fade-scale {
+            animation: fadeInScale 0.6s ease-out forwards;
+        }
+        
+        .animate-pulse-custom {
+            animation: pulse 2s infinite;
+        }
+        
+        /* Gradientes personalizados */
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+        }
+        
+        .bg-gradient-secondary {
+            background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
+        }
+        
+        /* Efeitos de hover */
+        .login-button {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e40af 100%);
+            transition: all 0.3s ease;
+        }
+        
+        .login-button:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+        }
+        
+        .input-field {
+            transition: all 0.3s ease;
+        }
+        
+        .input-field:focus {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+        }
+        
+        /* Partículas flutuantes */
+        .particle {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        
+        .particle1 {
+            width: 20px;
+            height: 20px;
+            top: 20%;
+            left: 10%;
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .particle2 {
+            width: 15px;
+            height: 15px;
+            top: 60%;
+            right: 15%;
+            animation: float 3s ease-in-out infinite reverse;
+        }
+        
+        .particle3 {
+            width: 25px;
+            height: 25px;
+            bottom: 20%;
+            left: 20%;
+            animation: float 5s ease-in-out infinite;
+        }
+        
+        .particle4 {
+            width: 18px;
+            height: 18px;
+            top: 40%;
+            right: 30%;
+            animation: float 3.5s ease-in-out infinite reverse;
+        }
+        
+        .particle5 {
+            width: 22px;
+            height: 22px;
+            top: 15%;
+            right: 8%;
+            animation: float 4.5s ease-in-out infinite;
+        }
+        
+        .particle6 {
+            width: 16px;
+            height: 16px;
+            bottom: 30%;
+            right: 25%;
+            animation: float 3.8s ease-in-out infinite reverse;
+        }
+        
+        .particle7 {
+            width: 19px;
+            height: 19px;
+            top: 70%;
+            left: 5%;
+            animation: float 4.2s ease-in-out infinite;
+        }
+        
+        .particle8 {
+            width: 14px;
+            height: 14px;
+            top: 35%;
+            left: 35%;
+            animation: float 3.2s ease-in-out infinite reverse;
+        }
+        
+        .particle9 {
+            width: 21px;
+            height: 21px;
+            bottom: 15%;
+            right: 5%;
+            animation: float 4.8s ease-in-out infinite;
+        }
+        
+        .particle10 {
+            width: 17px;
+            height: 17px;
+            top: 80%;
+            right: 40%;
+            animation: float 3.6s ease-in-out infinite reverse;
+        }
+    </style>
+</head>
+<body class="bg-gradient-primary min-h-screen flex items-center justify-center relative overflow-hidden">
+    
+    <!-- Partículas flutuantes de fundo -->
+    <div class="particle particle1"></div>
+    <div class="particle particle2"></div>
+    <div class="particle particle3"></div>
+    <div class="particle particle4"></div>
+    <div class="particle particle5"></div>
+    <div class="particle particle6"></div>
+    <div class="particle particle7"></div>
+    <div class="particle particle8"></div>
+    <div class="particle particle9"></div>
+    <div class="particle particle10"></div>
+    
+    <!-- Container principal com grid layout -->
+    <div class="w-full h-full flex items-center justify-center px-6">
+        <div class="w-full max-w-6xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            
+            <!-- Lado esquerdo - Imagem aleatória -->
+            <div class="hidden lg:flex flex-col items-center justify-center animate-fade-left">
+                <div class="text-center mb-8">
+                    <h1 class="text-5xl font-bold text-white mb-2">Curiango</h1>
+                    <p class="text-white/80 text-xl">Controle de Ativos</p>
+                </div>
+                <img id="randomImage" src="" alt="Login Image" class="w-full object-cover" style="height: 500px;">
+            </div>
+            
+            <!-- Lado direito - Card de login -->
+            <div class="flex flex-col items-center justify-center">
+                <!-- Logo mobile (visible apenas em telas pequenas) -->
+                <div class="lg:hidden text-center mb-8 animate-fade-scale">
+                    <div class="animate-float mb-6">
+                        <img src="{{ url_for('static', filename='img/favicon.png') }}" alt="Curiango Logo" class="w-16 h-16 mx-auto mb-4">
+                    </div>
+                    <h1 class="text-4xl font-bold text-white mb-2">Curiango</h1>
+                    <p class="text-white/80 text-lg">Controle de Ativos</p>
+                </div>
+                
+                <!-- Card de login transparente -->
+                <div class="bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl shadow-2xl p-8 w-full max-w-md animate-slide-right">
+            <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-white mb-2">Bem-vindo!</h2>
+                <p class="text-white/80 text-sm">Acesse sua conta para continuar</p>
+            </div>
+            
+            <form id="formLogin" class="space-y-6" aria-label="Formulário de Login">
+                <!-- Campo usuário -->
+                <div class="relative">
+                    <label for="username" class="block text-sm font-medium text-white mb-2">
+                        <i class="fas fa-user mr-2"></i>Usuário
+                    </label>
+                    <input 
+                        id="username" 
+                        name="username" 
+                        type="text" 
+                        required 
+                        class="input-field w-full bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent" 
+                        placeholder="Digite seu usuário"
+                    />
+                </div>
+                
+                <!-- Campo senha -->
+                <div class="relative">
+                    <label for="password" class="block text-sm font-medium text-white mb-2">
+                        <i class="fas fa-lock mr-2"></i>Senha
+                    </label>
+                    <input 
+                        id="password" 
+                        name="password" 
+                        type="password" 
+                        required 
+                        class="input-field w-full bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl px-4 py-3 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-transparent" 
+                        placeholder="Digite sua senha"
+                    />
+                </div>
+                
+                <!-- Botão de login -->
+                <button 
+                    type="submit" 
+                    class="login-button w-full py-3 rounded-xl text-white font-semibold text-lg shadow-lg"
+                    id="loginButton"
+                >
+                    <span id="loginButtonText">
+                        <i class="fas fa-sign-in-alt mr-2"></i>Entrar
+                    </span>
+                    <span id="loginButtonLoading" class="hidden">
+                        <i class="fas fa-spinner fa-spin mr-2"></i>Entrando...
+                    </span>
+                </button>
+                
+                <!-- Mensagem de status -->
+                <div id="loginMsg" class="text-sm text-center transition-all duration-300" role="status" aria-live="polite"></div>
+            </form>
+            
+            <!-- Informações adicionais -->
+            <div class="text-center mt-6 pt-6 border-t border-white/20">
+                <p class="text-white/70 text-xs">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Use suas credenciais de rede (Active Directory)
+                </p>
+            </div>
+                </div>
+                
+                <!-- Footer -->
+                <div class="text-center mt-8">
+                    <p class="text-white/60 text-sm">
+                        © 2024 Curiango - Sistema de Controle de Ativos
+                    </p>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="{{ url_for('static', filename='js/login.js') }}"></script>
+    <script>
+        // Carregar imagem aleatória
+        async function loadRandomImage() {
+            try {
+                const response = await fetch('/auth/random-login-image');
+                const data = await response.json();
+                if (data.image) {
+                    const randomImage = document.getElementById('randomImage');
+                    if (randomImage) {
+                        randomImage.src = data.image;
+                    }
+                }
+            } catch (error) {
+                console.log('Erro ao carregar imagem aleatória:', error);
+            }
+        }
+        
+        // Adicionar efeitos visuais ao formulário
+        document.addEventListener('DOMContentLoaded', function() {
+            // Carregar imagem aleatória
+            loadRandomImage();
+            const form = document.getElementById('formLogin');
+            const inputs = form.querySelectorAll('input');
+            const button = form.querySelector('button[type="submit"]');
+            
+            // Efeito de foco nos inputs
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.style.transform = 'scale(1.02)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.style.transform = 'scale(1)';
+                });
+            });
+            
+            // Animação do botão de submit durante o carregamento
+            form.addEventListener('submit', function() {
+                const buttonText = document.getElementById('loginButtonText');
+                const buttonLoading = document.getElementById('loginButtonLoading');
+                
+                buttonText.classList.add('hidden');
+                buttonLoading.classList.remove('hidden');
+                button.disabled = true;
+                
+                // Resetar após 5 segundos (fallback)
+                setTimeout(() => {
+                    buttonText.classList.remove('hidden');
+                    buttonLoading.classList.add('hidden');
+                    button.disabled = false;
+                }, 5000);
+            });
+            
+            // Criar mais partículas dinamicamente - densidade triplicada novamente
+            for (let i = 0; i < 195; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.width = Math.random() * 8 + 4 + 'px';
+                particle.style.height = particle.style.width;
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 8 + 's';
+                particle.style.animationDuration = (Math.random() * 6 + 3) + 's';
+                particle.style.opacity = Math.random() * 0.2 + 0.05;
+                document.body.appendChild(particle);
+            }
+        });
+    </script>
+</body>
+</html>
